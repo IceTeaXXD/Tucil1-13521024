@@ -9,4 +9,5 @@ Tucil 1 STIMA 13521024 Ahmad Nadil
 `g++ -o bin/main.exe src/main.cpp`
 
 3. Jalankan executable program yang telah berhasil di-compile dengan command berikut :
+
 `bin/main.exe`
