@@ -1,0 +1,2 @@
+# Tucil1-13521024
+Tucil 1 STIMA 13521024 Ahmad Nadil
