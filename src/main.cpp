@@ -3,7 +3,6 @@
 #include <time.h>
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <fstream>
 #include <ctime>
 
@@ -107,12 +106,21 @@ double operasi (double a, double b, int op){
     }
 }
 
-void validator24 (double nums[4], vector<string> *hasil, int *count){
+bool isduplicate(vector<string> *hasil, string str){
+    for (int i = 0 ; i < hasil->size() ; i++){
+        if (hasil->at(i) == str){
+            return true;
+        }
+    }
+    return false;
+}
+
+void validator24 (double nums[4], vector<string> *hasil){
     double a = nums[0];
     double b = nums[1];
     double c = nums[2];
     double d = nums[3];
-
+    string temp = "";
     for (int i = 0 ; i < 4 ; i++){
         for (int j = 0 ; j < 4 ; j++){
             for (int k = 0 ; k < 4 ; k++){
@@ -126,32 +134,42 @@ void validator24 (double nums[4], vector<string> *hasil, int *count){
 
                     // (a X b) X (c X d)
                     if (operasi(operasi(a,b,i),operasi(c,d,k),j) == 24.0){
-                        hasil->push_back("(" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + ")");
-                        *count += 1;
+                        temp = "(" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + ")";
+                        if (!isduplicate(hasil,temp)){
+                            hasil->push_back(temp);
+                        }
                     }
 
                     // a X (b X (c X d))
                     if (operasi(a,operasi(b,operasi(c,d,k),j),i) == 24.0){
-                        hasil->push_back(inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + "))");
-                        *count += 1;
+                        temp = inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + "))";
+                        if (!isduplicate(hasil,temp)){
+                            hasil->push_back(temp);
+                        }
                     }
 
                     // a X ((b X c) X d)
                     if (operasi(a,operasi(operasi(b,c,j),d,k),i) == 24.0){
-                        hasil->push_back(inttostr(a) + " " + inttoop(i) + " ((" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d) + ")");
-                        *count += 1;
+                        temp = inttostr(a) + " " + inttoop(i) + " ((" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d) + ")";
+                        if (!isduplicate(hasil,temp)){
+                            hasil->push_back(temp);
+                        }
                     }
 
                     // (a X (b X c)) X d
                     if (operasi(operasi(a,operasi(b,c,j),i),d,k) == 24.0){
-                        hasil->push_back("(" + inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ")) " + inttoop(k) + " " + inttostr(d));
-                        *count += 1;
+                        temp = "(" + inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ")) " + inttoop(k) + " " + inttostr(d);
+                        if (!isduplicate(hasil,temp)){
+                            hasil->push_back(temp);
+                        }
                     }
 
                     // ((a X b) X c) X d
                     if (operasi(operasi(operasi(a,b,i),c,j),d,k) == 24.0){
-                        hasil->push_back("((" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d));
-                        *count += 1;
+                        temp = "((" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d);
+                        if (!isduplicate(hasil,temp)){
+                            hasil->push_back(temp);
+                        }
                     }
                 }
             }
@@ -159,33 +177,27 @@ void validator24 (double nums[4], vector<string> *hasil, int *count){
     }
 }
 
-void perm(double *nums, int start, int end, vector<string> *hasil, int *count){
+void perm(double *nums, int start, int end, vector<string> *hasil){
     if (start == end){
-        validator24(nums, hasil, count);
+        validator24(nums, hasil);
     }
     else{
         for (int i = start; i < end; i++){
             swap(nums[start], nums[i]);
-            perm(nums, start + 1, end, hasil, count);
+            perm(nums, start + 1, end, hasil);
             swap(nums[start], nums[i]);
         }
     }
 }
 
-void removeduplicates(vector<string> *hasil){
-    sort(hasil->begin(), hasil->end());
-    hasil->erase(unique(hasil->begin(), hasil->end()), hasil->end());
-}
-
-void writefile(string kartu[4], vector<string> *hasil){
-    // write the file name in date and time format
+void writefile(string kartu[4], vector<string> *hasil){ 
     time_t t = time(0);
     struct tm * now = localtime(&t);
 
     const char * dir = "test\\";
     const char * ext = ".txt";
     char filename[100];
-    sprintf(filename, "%s%d-%d-%d-%d-%d-%d%s", dir, (now->tm_year + 1900), (now->tm_mon + 1), now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, ext);
+    sprintf(filename, "%s%d-%d-%d-%d-%d%s", dir, (now->tm_year + 1900), now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, ext);
 
     ofstream file;
     file.open(filename);
@@ -230,17 +242,17 @@ int main(){
         cout << "3. Exit" << endl;
         cout << "Pilihan : ";
         cin >> pilihan;
-        int count = 0;
         if (pilihan == 1){
 
             /* INPUT KARTU DAN VALIDASI */
             bool valid= false;
             while (!valid){
                 /* INPUT KARTU */
+                cout << "Masukkan 4 kartu (A,2,3,4,5,6,7,8,9,10,J,Q,K) : ";
                 cin >> kartu[0] >> kartu[1] >> kartu[2] >> kartu[3];
 
                 /* VALIDASI */
-                for (int i = 0; i < length_kartu; i++){
+                for (int i = 0; i < 3; i++){
 
                     /* MERUBAH INPUT KARTU MENJADI INTEGER */
                     nilai_kartu[i] = strtodouble(kartu[i]);
@@ -249,21 +261,19 @@ int main(){
                         cout << "Input salah, ulangi input!" << endl;
                         break;
                     }
-                    else if (i == length_kartu - 1){
+                    else if (i == 2){
                         valid = true;
                     }
                 }
                 if (valid){
-
                     // cek nilai 24
-                    perm(nilai_kartu, 0, 4, &hasil, &count);
+                    perm(nilai_kartu, 0, 4, &hasil);
 
                     // print hasil
-                    if (count == 0){
+                    if (hasil.size() == 0){
                         cout << "Tidak ada solusi" << endl;
                     }
                     else{
-                        removeduplicates(&hasil);
                         cout <<  "Jumlah solusi : " << hasil.size() << endl;
                         for (int i = 0; i < hasil.size(); i++){
                             cout << hasil[i] << endl;
