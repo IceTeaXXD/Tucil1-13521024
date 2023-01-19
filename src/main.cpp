@@ -1,13 +1,16 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
-
-
+#include <string>
+#include <vector>
 using namespace std;
 
-
 int strtoint(string c){
-    // Fungsi untuk mengubah string menjadi integer pada kartu
+    /*
+    I.S. Menerima sebuah string
+    F.S. Mengembalikan nilai kartu tersebut dalam bentuk integer
+    */
+
     if (c == "A"){
         return 1;
     }
@@ -52,36 +55,141 @@ int strtoint(string c){
     }
 }
 
-void check24 (int nums[4]){
+void check24 (int nums[4], vector<string> *hasil, int *count){
     // Fungsi untuk mengecek apakah ada 4 angka yang dapat menghasilkan 24
     int a = nums[0];
     int b = nums[1];
     int c = nums[2];
     int d = nums[3];
-    int hasil = 24;
 
-    // KEMUNGKINAN OPERASI
-    // a X b X c X d
-    // a X b X (c X d)
-    // (a X b) X (c X d)
-    // (a X b) X c X d
-    // a X (b X c) X d
-    // a X (b X (c X d))
-    // a X (b X c X d)
-    // (a X b X c) X d
-    // (a X b) X c X d
-    // a X (b X c X d)
-    // (a X b X c X d)
+    // Operasi komutatif
+    if (a+b+c+d == 24){
+        hasil->push_back(to_string(a) + " + " + to_string(b) + " + " + to_string(c) + " + " + to_string(d));
+        *count += 1;
+    }
+    if (a*b*c*d == 24){
+        hasil->push_back(to_string(a) + " * " + to_string(b) + " * " + to_string(c) + " * " + to_string(d));
+        *count += 1;
+    }
 
-    // Looping untuk menghitung semua kemungkinan operasi
-    // a X b X c X d
-    // X adalah operasi +, -, *, /
+    // 2 '+' dan 1 '-'
+    if (a+b+c-d == 24){
+        hasil->push_back(to_string(a) + " + " + to_string(b) + " + " + to_string(c) + " - " + to_string(d));
+        *count += 1;
+    }
 
+    // 2 '+' dan 1 '*'
+    if (a*b+c+d == 24){
+        hasil->push_back(to_string(a) + " * " + to_string(b) + " + " + to_string(c) + " + " + to_string(d));
+        *count += 1;
+    }
+    if (a*(b+c)+d == 24){
+        hasil->push_back(to_string(a) + " * (" + to_string(b) + " + " + to_string(c) + ") + " + to_string(d));
+    }
+    if (a*(b+c+d) == 24){
+        hasil->push_back(to_string(a) + " * (" + to_string(b) + " + " + to_string(c) + " + " + to_string(d) + ")");
+        *count += 1;
+    }
+
+    // 1 '+' dan 2 '*'
+    if ((a*b*c)+d == 24){
+        hasil->push_back("(" + to_string(a) + " * " + to_string(b) + " * " + to_string(c) + ") + " + to_string(d));
+        *count += 1;
+    }
+    if(a*b*(c+d) == 24){
+        hasil->push_back(to_string(a) + " * " + to_string(b) + " * (" + to_string(c) + " + " + to_string(d) + ")");
+        *count += 1;
+    }
+    if((a*b)+(c*d)){
+        hasil->push_back("(" + to_string(a) + " * " + to_string(b) + ") + (" + to_string(c) + " * " + to_string(d) + ")");
+        *count += 1;
+    }
+
+    // 1 '-' dan 2 '*'
+    if((a*b*c)-d == 24){
+        hasil->push_back("(" + to_string(a) + " * " + to_string(b) + " * " + to_string(c) + ") - " + to_string(d));
+        *count += 1;
+    }
+    if(a*b*(c-d) == 24){
+        hasil->push_back(to_string(a) + " * " + to_string(b) + " * (" + to_string(c) + " - " + to_string(d) + ")");
+        *count += 1;
+    }
+    if((a*b)-(c*d) == 24){
+        hasil->push_back("(" + to_string(a) + " * " + to_string(b) + ") - (" + to_string(c) + " * " + to_string(d) + ")");
+        *count += 1;
+    }
+
+    // 1 '+' dan 1 '-' dan 1 '*'
+    if(a*b+c-d == 24){
+        hasil->push_back(to_string(a) + " * " + to_string(b) + " + " + to_string(c) + " - " + to_string(d));
+        *count += 1;
+    }
+    if(a*(b+c)-d == 24){
+        hasil->push_back(to_string(a) + " * (" + to_string(b) + " + " + to_string(c) + ") - " + to_string(d));
+        *count += 1;
+    }
+    if(a*(b-c)+d == 24){
+        hasil->push_back(to_string(a) + " * (" + to_string(b) + " - " + to_string(c) + ") + " + to_string(d));
+        *count += 1;
+    }
+    if(a*(b+c-d) == 24){
+        hasil->push_back(to_string(a) + " * (" + to_string(b) + " + " + to_string(c) + " - " + to_string(d) + ")");
+        *count += 1;
+    }
+    if(a*b-(c+d) == 24){
+        hasil->push_back(to_string(a) + " * " + to_string(b) + " - (" + to_string(c) + " + " + to_string(d) + ")");
+        *count += 1;
+    }
+
+    // 1 '*' dan 1 '/' dan 1 '+'
+    if (a*b == (24-d) * c){ // (a*b/c)+d
+        hasil->push_back("(" + to_string(a) + " * " + to_string(b) + " / " + to_string(c) + ") + " + to_string(d));
+        *count += 1;
+    }
+    if(((a*b)+c) == 24*d){ // ((a*b)+c)/d
+        hasil->push_back("((" + to_string(a) + " * " + to_string(b) + ") + " + to_string(c) + ") / " + to_string(d));
+        *count += 1;
+    }
+    if((a+b)*c == 24*d){ // ((a+b)*c)/d
+        hasil->push_back("((" + to_string(a) + " + " + to_string(b) + ") * " + to_string(c) + ") / " + to_string(d));
+        *count += 1;
+    }
+    if(a*b == 24*(c+d)){ // (a*b)/(c+d)
+        hasil->push_back("(" + to_string(a) + " * " + to_string(b) + ") / (" + to_string(c) + " + " + to_string(d) + ")");
+        *count += 1;
+    }
+
+    // 1 '*' dan 1 '/' dan 1 '-'
+    if(a*b == (24 + d)*c){ // (a*b/c)-d
+        hasil->push_back("(" + to_string(a) + " * " + to_string(b) + " / " + to_string(c) + ") - " + to_string(d));
+        *count += 1;
+    }
+    if(((a*b)-c) == 24*d){ // ((a*b)-c)/d
+        hasil->push_back("((" + to_string(a) + " * " + to_string(b) + ") - " + to_string(c) + ") / " + to_string(d));
+        *count += 1;
+    }
+    if((a-b)*c == 24*d){ // ((a-b)*c)/d
+        hasil->push_back("((" + to_string(a) + " - " + to_string(b) + ") * " + to_string(c) + ") / " + to_string(d));
+        *count += 1;
+    }
+    if(a*b == 24*(c-d)){ // (a*b)/(c-d)
+        hasil->push_back("(" + to_string(a) + " * " + to_string(b) + ") / (" + to_string(c) + " - " + to_string(d) + ")");
+        *count += 1;
+    }
+
+    // 2 '*' dan 1 '/'
+    if(a*b*c == 24*d){ // a*b*c/d
+        hasil->push_back(to_string(a) + " * " + to_string(b) + " * " + to_string(c) + " / " + to_string(d));
+        *count += 1;
+    }
+    if(a*b == 24*c*d){ //a*b/(c*d)
+        hasil->push_back(to_string(a) + " * " + to_string(b) + " / (" + to_string(c) + " * " + to_string(d) + ")");
+        *count += 1;
+    }
 }
 
-
 int main(){
-    // SPLASH SCREEN 
+    /* SPLASH SCREEN */
     system("cls");  
     cout << "========================================================================================" << endl;                                                
     cout << "  ___    _  _            _______.  ______    __      ____    ____  _______ .______      " << endl;
@@ -94,7 +202,7 @@ int main(){
     cout << "========================================================================================" << endl;
     cout << " " << endl;
 
-    // MAIN MENU
+    /* MAIN MENU */
     bool run = true;
     int pilihan;
     string kartu[4];
@@ -112,16 +220,16 @@ int main(){
 
         if (pilihan == 1){
 
-            // INPUT KARTU DAN VALIDASI
+            /* INPUT KARTU DAN VALIDASI */
             bool valid= false;
             while (!valid){
-                // INPUT KARTU
+                /* INPUT KARTU */
                 cin >> kartu[0] >> kartu[1] >> kartu[2] >> kartu[3];
 
-                // VALIDASI
+                /* VALIDASI */
                 for (int i = 0; i < length_kartu; i++){
 
-                    // MERUBAH INPUT KARTU MENJADI INTEGER
+                    /* MERUBAH INPUT KARTU MENJADI INTEGER */
                     nilai_kartu[i] = strtoint(kartu[i]);
 
                     if (nilai_kartu[i] == 999){
