@@ -190,30 +190,56 @@ void perm(double *nums, int start, int end, vector<string> *hasil){
     }
 }
 
-void writefile(string kartu[4], vector<string> *hasil){ 
-    time_t t = time(0);
-    struct tm * now = localtime(&t);
+void writefile(vector<string> kartu, vector<string> *hasil, double runtime){ 
+    bool save = false;
+    string yesno;
+    while (!save){
+        cout << "Simpan hasil ke file? (Y/N) : ";
+        cin >> yesno;
+        if (yesno == "Y" || yesno == "y"){
+        const char * dir = "test\\";
+        const char * ext = ".txt";
+        // input filename
+        string filename;
+        cout << "Masukkan nama file : ";
+        cin >> filename;
+        // create filename
+        string temp = dir + filename + ext;
+        const char * filename_char = temp.c_str();
+        // write to file
+        ofstream file;
+        file.open(filename_char);
 
-    const char * dir = "test\\";
-    const char * ext = ".txt";
-    char filename[100];
-    sprintf(filename, "%s%d-%d-%d-%d-%d%s", dir, (now->tm_year + 1900), now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, ext);
-
-    ofstream file;
-    file.open(filename);
-
-    file << "Kartu : " << kartu[0] << " " << kartu[1] << " " << kartu[2] << " " << kartu[3] << endl;
-    file << "Jumlah Solusi : " << hasil->size() << endl;
-    file << "Solusi : " << endl;
-    for (int i = 0 ; i < hasil->size() ; i++){
-        file << hasil->at(i) << endl;
+        file << "Kartu : " << kartu[0] << " " << kartu[1] << " " << kartu[2] << " " << kartu[3] << endl;
+        file << "Jumlah Solusi : " << hasil->size() << endl;
+        file << "Solusi : " << endl;
+        for (int i = 0 ; i < hasil->size() ; i++){
+            file << hasil->at(i) << endl;
+        }
+        file << "Waktu Eksekusi : " << runtime << " detik" << endl;
+        file.close();
+        cout << "Solusi telah disimpan di file " << filename << endl;
+            save = true;
+        }
+        else if (yesno == "N" || yesno == "n"){
+            save = true;
+        }
+        else{
+            cout << "Input tidak valid!" << endl;
+        }
     }
-    file.close();
-    cout << "Solusi telah disimpan di file " << filename << endl;
 }
 
-int main(){
-    /* SPLASH SCREEN */
+void inputkartu (vector<string> *kartu_input){
+    string temp;
+    cout << "Masukkan 4 kartu (A,2,3,4,5,6,7,8,9,10,J,Q,K) : ";
+    for (int i = 0 ; i < 4 ; i++){
+        cin >> temp;
+        kartu_input->push_back(temp);
+    }
+}
+
+void splashscreen(){
     system("cls");  
     cout << "========================================================================================" << endl;                                                
     cout << "  ___    _  _            _______.  ______    __      ____    ____  _______ .______      " << endl;
@@ -222,66 +248,86 @@ int main(){
     cout << "   / /  |__   _|        \\   \\    |  |  |  | |  |       \\      /   |   __|  |      /     " << endl;
     cout << "  / /_     | |      .----)   |   |  `--'  | |  `----.   \\    /    |  |____ |  |\\  \\----." << endl;
     cout << " |____|    |_|      |_______/     \\______/  |_______|    \\__/     |_______|| _| `._____|" << endl;
-    cout << "                                   BY 13521024 - AHMAD NADIL                                         " << endl;
+    cout << "                               BY 13521024 - AHMAD NADIL                                         " << endl;
     cout << "========================================================================================" << endl;
     cout << " " << endl;
+}
 
+void printruntime(double runtime){
+    cout << "============================" << endl;
+    cout << "| Waktu Eksekusi : " << runtime << " ms    |" << endl;
+    cout << "============================" << endl;
+}
+int main(){
     /* MAIN MENU */
+    splashscreen();
     bool run = true;
     int pilihan;
-    string kartu[4];
-    int length_kartu = 4;
+    bool valid;
+    bool save = false;
+    bool validsave = false;
+    vector<string> kartu_input;
+    string temp_kartu;
     double nilai_kartu[4];    
     string arr_kartu[] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     vector<string> hasil;
+    time_t start,end;
+    double runtime;
 
     while (run){
         cout << "===== MENU UTAMA =====" << endl;
         cout << "1. Input Kartu" << endl;
         cout << "2. Random Kartu" << endl;
         cout << "3. Exit" << endl;
-        cout << "Pilihan : ";
+        cout << "Pilihan (1/2/3) : ";
         cin >> pilihan;
         if (pilihan == 1){
 
             /* INPUT KARTU DAN VALIDASI */
-            bool valid= false;
+            valid= false;
             while (!valid){
-                /* INPUT KARTU */
-                cout << "Masukkan 4 kartu (A,2,3,4,5,6,7,8,9,10,J,Q,K) : ";
-                cin >> kartu[0] >> kartu[1] >> kartu[2] >> kartu[3];
-
+                inputkartu(&kartu_input);
                 /* VALIDASI */
-                for (int i = 0; i < 3; i++){
-
+                for (int i = 0 ; i < 4 ; i++){
                     /* MERUBAH INPUT KARTU MENJADI INTEGER */
-                    nilai_kartu[i] = strtodouble(kartu[i]);
-
+                    nilai_kartu[i] = strtodouble(kartu_input[i]);
                     if (nilai_kartu[i] == 999){
-                        cout << "Input salah, ulangi input!" << endl;
+                        cout << "Kartu tidak valid" << endl;
+                        kartu_input.clear();
                         break;
                     }
-                    else if (i == 2){
+                    /* Jika semua kartu berhasil divalidasi */
+                    if (i == 3){
                         valid = true;
                     }
                 }
-                if (valid){
-                    // cek nilai 24
-                    perm(nilai_kartu, 0, 4, &hasil);
-
-                    // print hasil
-                    if (hasil.size() == 0){
-                        cout << "Tidak ada solusi" << endl;
-                    }
-                    else{
-                        cout <<  "Jumlah solusi : " << hasil.size() << endl;
-                        for (int i = 0; i < hasil.size(); i++){
-                            cout << hasil[i] << endl;
-                        }
-                        writefile(kartu, &hasil);
-                    }
-                }
             }
+
+            clock_t start = clock();
+            /* Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan dari set kartu */
+            perm(nilai_kartu, 0, 4, &hasil);
+
+            clock_t end = clock();
+            double runtime = double(end - start)/CLOCKS_PER_SEC * 1000;
+            
+            /* Menampilkan hasil akhir */
+            if (hasil.size() == 0){
+                cout << "Tidak ada solusi" << endl;
+                printruntime(runtime);
+            }
+            else{
+                cout <<  "Jumlah solusi : " << hasil.size() << endl;
+                for (int i = 0; i < hasil.size(); i++){
+                    cout << hasil[i] << endl;
+                }
+                printruntime(runtime);
+            }
+
+            writefile(kartu_input, &hasil, runtime);
+            
+            // Reset Variabel
+            kartu_input.clear();
+            hasil.clear();
 
             cout << "Press enter to continue...";
             cin.ignore();
@@ -289,15 +335,41 @@ int main(){
         }
 
         else if (pilihan == 2){
+            /* RANDOM KARTU */
             srand(time(0));
-
-            for (int i = 0; i < length_kartu; i++) {
+            for (int i = 0; i < 4; i++) {
                 int rand_num = rand() % 13;
-                nilai_kartu[i] = strtodouble(arr_kartu[rand_num]);
+                kartu_input.push_back(arr_kartu[rand_num]);
+                nilai_kartu[i] = strtodouble(arr_kartu[rand_num]); // Merubah kartu menjadi integer
                 cout << arr_kartu[rand_num] << " ";
             }
-
             cout << endl;
+
+            clock_t start = clock();
+            /* Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan dari set kartu */
+            perm(nilai_kartu, 0, 4, &hasil);
+
+            clock_t end = clock();
+            double runtime = double(end - start)/CLOCKS_PER_SEC * 1000;
+
+            
+            /* Menampilkan hasil akhir */
+            if (hasil.size() == 0){
+                cout << "Tidak ada solusi" << endl;
+                printruntime(runtime);
+            }
+            else{
+                cout <<  "Jumlah solusi : " << hasil.size() << endl;
+                for (int i = 0; i < hasil.size(); i++){
+                    cout << hasil[i] << endl;
+                }
+                printruntime(runtime);
+            }
+            writefile(kartu_input, &hasil, runtime);
+            
+            // Reset Variabel
+            kartu_input.clear();
+            hasil.clear();
 
             cout << "Press enter to continue...";
             cin.ignore();
@@ -319,7 +391,7 @@ int main(){
             cin.ignore();
             cin.get();
         }
-        system("cls");
+        splashscreen();
     }
     return 0;
 }
