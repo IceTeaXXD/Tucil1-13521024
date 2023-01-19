@@ -3,10 +3,18 @@
 #include <time.h>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <fstream>
+#include <ctime>
+
 using namespace std;
 
 string inttostr(int num){
-    // change int to string
+    /*
+    I.S. Menerima sebuah integer
+    F.S. Mengembalikan nilai integer tersebut dalam bentuk string
+    */
+
     string str = "";
     while (num > 0){
         str = (char)(num % 10 + 48) + str;
@@ -15,214 +23,182 @@ string inttostr(int num){
     return str;
 }
 
-int strtoint(string c){
+int strtodouble(string c){
     /*
     I.S. Menerima sebuah string
     F.S. Mengembalikan nilai kartu tersebut dalam bentuk integer
     */
 
     if (c == "A"){
-        return 1;
+        return 1.0;
     }
     else if (c == "J"){
-        return 11;
+        return 11.0;
     }
     else if (c == "Q"){
-        return 12;
+        return 12.0;
     }
     else if (c == "K"){
-        return 13;
+        return 13.0;
     }
     else if (c == "2"){
-        return 2;
+        return 2.0;
     }
     else if (c == "3"){
-        return 3;
+        return 3.0;
     }
     else if (c == "4"){
-        return 4;
+        return 4.0;
     }
     else if (c == "5"){
-        return 5;
+        return 5.0;
     }
     else if (c == "6"){
-        return 6;
+        return 6.0;
     }
     else if (c == "7"){
-        return 7;
+        return 7.0;
     }
     else if (c == "8"){
-        return 8;
+        return 8.0;
     }
     else if (c == "9"){
-        return 9;
+        return 9.0;
     }
     else if (c == "10"){
-        return 10;
+        return 10.0;
     }
     else{ // Jika input salah
-        return 999;
+        return 999.0;
     }
 }
 
-void swap(int *a, int *b){
-    // Fungsi untuk menukar 2 angka
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-void check24 (int nums[4], vector<string> *hasil, int *count){
-    // Fungsi untuk mengecek apakah ada 4 angka yang dapat menghasilkan 24
-    int a = nums[0];
-    int b = nums[1];
-    int c = nums[2];
-    int d = nums[3];
-
-    // Operasi komutatif
-    if (a+b+c+d == 24){
-        hasil->push_back(inttostr(a) + " + " + inttostr(b) + " + " + inttostr(c) + " + " + inttostr(d));
-        *count += 1;
+string inttoop(int op){
+    /*
+    I.S. Menerima sebuah integer
+    F.S. Mengembalikan nilai operator tersebut dalam bentuk string
+    */
+    if (op == 0){
+        return "+";
     }
-    if (a*b*c*d == 24){
-        hasil->push_back(inttostr(a) + " * " + inttostr(b) + " * " + inttostr(c) + " * " + inttostr(d));
-        *count += 1;
+    else if (op == 1){
+        return "-";
     }
-
-    // 2 '+' dan 1 '-'
-    if (a+b+c-d == 24){
-        hasil->push_back(inttostr(a) + " + " + inttostr(b) + " + " + inttostr(c) + " - " + inttostr(d));
-        *count += 1;
+    else if (op == 2){
+        return "*";
     }
-
-    // 2 '+' dan 1 '*'
-    if (a*b+c+d == 24){
-        hasil->push_back(inttostr(a) + " * " + inttostr(b) + " + " + inttostr(c) + " + " + inttostr(d));
-        *count += 1;
-    }
-    if (a*(b+c)+d == 24){
-        hasil->push_back(inttostr(a) + " * (" + inttostr(b) + " + " + inttostr(c) + ") + " + inttostr(d));
-    }
-    if (a*(b+c+d) == 24){
-        hasil->push_back(inttostr(a) + " * (" + inttostr(b) + " + " + inttostr(c) + " + " + inttostr(d) + ")");
-        *count += 1;
-    }
-
-    // 1 '+' dan 2 '*'
-    if ((a*b*c)+d == 24){
-        hasil->push_back("(" + inttostr(a) + " * " + inttostr(b) + " * " + inttostr(c) + ") + " + inttostr(d));
-        *count += 1;
-    }
-    if(a*b*(c+d) == 24){
-        hasil->push_back(inttostr(a) + " * " + inttostr(b) + " * (" + inttostr(c) + " + " + inttostr(d) + ")");
-        *count += 1;
-    }
-    if((a*b)+(c*d)){
-        hasil->push_back("(" + inttostr(a) + " * " + inttostr(b) + ") + (" + inttostr(c) + " * " + inttostr(d) + ")");
-        *count += 1;
-    }
-
-    // 1 '-' dan 2 '*'
-    if((a*b*c)-d == 24){
-        hasil->push_back("(" + inttostr(a) + " * " + inttostr(b) + " * " + inttostr(c) + ") - " + inttostr(d));
-        *count += 1;
-    }
-    if(a*b*(c-d) == 24){
-        hasil->push_back(inttostr(a) + " * " + inttostr(b) + " * (" + inttostr(c) + " - " + inttostr(d) + ")");
-        *count += 1;
-    }
-    if((a*b)-(c*d) == 24){
-        hasil->push_back("(" + inttostr(a) + " * " + inttostr(b) + ") - (" + inttostr(c) + " * " + inttostr(d) + ")");
-        *count += 1;
-    }
-
-    // 1 '+' dan 1 '-' dan 1 '*'
-    if(a*b+c-d == 24){
-        hasil->push_back(inttostr(a) + " * " + inttostr(b) + " + " + inttostr(c) + " - " + inttostr(d));
-        *count += 1;
-    }
-    if(a*(b+c)-d == 24){
-        hasil->push_back(inttostr(a) + " * (" + inttostr(b) + " + " + inttostr(c) + ") - " + inttostr(d));
-        *count += 1;
-    }
-    if(a*(b-c)+d == 24){
-        hasil->push_back(inttostr(a) + " * (" + inttostr(b) + " - " + inttostr(c) + ") + " + inttostr(d));
-        *count += 1;
-    }
-    if(a*(b+c-d) == 24){
-        hasil->push_back(inttostr(a) + " * (" + inttostr(b) + " + " + inttostr(c) + " - " + inttostr(d) + ")");
-        *count += 1;
-    }
-    if(a*b-(c+d) == 24){
-        hasil->push_back(inttostr(a) + " * " + inttostr(b) + " - (" + inttostr(c) + " + " + inttostr(d) + ")");
-        *count += 1;
-    }
-
-    // 1 '*' dan 1 '/' dan 1 '+'
-    if (a*b == (24-d) * c){ // (a*b/c)+d
-        hasil->push_back("(" + inttostr(a) + " * " + inttostr(b) + " / " + inttostr(c) + ") + " + inttostr(d));
-        *count += 1;
-    }
-    if(((a*b)+c) == 24*d){ // ((a*b)+c)/d
-        hasil->push_back("((" + inttostr(a) + " * " + inttostr(b) + ") + " + inttostr(c) + ") / " + inttostr(d));
-        *count += 1;
-    }
-    if((a+b)*c == 24*d){ // ((a+b)*c)/d
-        hasil->push_back("((" + inttostr(a) + " + " + inttostr(b) + ") * " + inttostr(c) + ") / " + inttostr(d));
-        *count += 1;
-    }
-    if(a*b == 24*(c+d)){ // (a*b)/(c+d)
-        hasil->push_back("(" + inttostr(a) + " * " + inttostr(b) + ") / (" + inttostr(c) + " + " + inttostr(d) + ")");
-        *count += 1;
-    }
-
-    // 1 '*' dan 1 '/' dan 1 '-'
-    if(a*b == (24 + d)*c){ // (a*b/c)-d
-        hasil->push_back("(" + inttostr(a) + " * " + inttostr(b) + " / " + inttostr(c) + ") - " + inttostr(d));
-        *count += 1;
-    }
-    if(((a*b)-c) == 24*d){ // ((a*b)-c)/d
-        hasil->push_back("((" + inttostr(a) + " * " + inttostr(b) + ") - " + inttostr(c) + ") / " + inttostr(d));
-        *count += 1;
-    }
-    if((a-b)*c == 24*d){ // ((a-b)*c)/d
-        hasil->push_back("((" + inttostr(a) + " - " + inttostr(b) + ") * " + inttostr(c) + ") / " + inttostr(d));
-        *count += 1;
-    }
-    if(a*b == 24*(c-d)){ // (a*b)/(c-d)
-        hasil->push_back("(" + inttostr(a) + " * " + inttostr(b) + ") / (" + inttostr(c) + " - " + inttostr(d) + ")");
-        *count += 1;
-    }
-
-    // 2 '*' dan 1 '/'
-    if(a*b*c == 24*d){ // a*b*c/d
-        hasil->push_back(inttostr(a) + " * " + inttostr(b) + " * " + inttostr(c) + " / " + inttostr(d));
-        *count += 1;
-    }
-    if(a*b == 24*c*d){ //a*b/(c*d)
-        hasil->push_back(inttostr(a) + " * " + inttostr(b) + " / (" + inttostr(c) + " * " + inttostr(d) + ")");
-        *count += 1;
+    else if (op == 3){
+        return "/";
     }
 }
 
-void permutations(int nums[4], int start, int end, vector<string> *hasil, int *count){
-    // Fungsi untuk mendapat semua kemungkinan dari 4 angka
-    if (start == end){
-        check24(nums, hasil, count);
+double operasi (double a, double b, int op){
+    if (op == 0){
+        return a+b;
     }
-    else{
-        for (int i = start; i <= end; i++){
-            swap(&nums[start], &nums[i]);
-            permutations(nums, start+1, end, hasil, count);
-            swap(&nums[start], &nums[i]);
+    else if (op == 1){
+        return a-b;
+    }
+    else if (op == 2){
+        return a*b;
+    }
+    else if (op == 3){
+        return a/b;
+    }
+}
+
+void validator24 (double nums[4], vector<string> *hasil, int *count){
+    double a = nums[0];
+    double b = nums[1];
+    double c = nums[2];
+    double d = nums[3];
+
+    for (int i = 0 ; i < 4 ; i++){
+        for (int j = 0 ; j < 4 ; j++){
+            for (int k = 0 ; k < 4 ; k++){
+                for (int l = 0 ; l < 4 ; l++){
+                    // KEMUNGKINAN OPERASI
+                    // X adalah operator * / + -
+                        // i or j or k or l = 0 -> +
+                        // i or j or k or l = 1 -> -
+                        // i or j or k or l = 2 -> *
+                        // i or j or k or l = 3 -> /
+
+                    // (a X b) X (c X d)
+                    if (operasi(operasi(a,b,i),operasi(c,d,k),j) == 24.0){
+                        hasil->push_back("(" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + ")");
+                        *count += 1;
+                    }
+
+                    // a X (b X (c X d))
+                    if (operasi(a,operasi(b,operasi(c,d,k),j),i) == 24.0){
+                        hasil->push_back(inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + "))");
+                        *count += 1;
+                    }
+
+                    // a X ((b X c) X d)
+                    if (operasi(a,operasi(operasi(b,c,j),d,k),i) == 24.0){
+                        hasil->push_back(inttostr(a) + " " + inttoop(i) + " ((" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d) + ")");
+                        *count += 1;
+                    }
+
+                    // (a X (b X c)) X d
+                    if (operasi(operasi(a,operasi(b,c,j),i),d,k) == 24.0){
+                        hasil->push_back("(" + inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ")) " + inttoop(k) + " " + inttostr(d));
+                        *count += 1;
+                    }
+
+                    // ((a X b) X c) X d
+                    if (operasi(operasi(operasi(a,b,i),c,j),d,k) == 24.0){
+                        hasil->push_back("((" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d));
+                        *count += 1;
+                    }
+                }
+            }
         }
     }
 }
 
-// fungsi untuk mendapat semua kemungkinan dari 4 angka
-void permute(int nums[4], vector<string> *hasil, int *count){
-    permutations(nums, 0, 3, hasil, count);
+void perm(double *nums, int start, int end, vector<string> *hasil, int *count){
+    if (start == end){
+        validator24(nums, hasil, count);
+    }
+    else{
+        for (int i = start; i < end; i++){
+            swap(nums[start], nums[i]);
+            perm(nums, start + 1, end, hasil, count);
+            swap(nums[start], nums[i]);
+        }
+    }
 }
 
+void removeduplicates(vector<string> *hasil){
+    sort(hasil->begin(), hasil->end());
+    hasil->erase(unique(hasil->begin(), hasil->end()), hasil->end());
+}
+
+void writefile(string kartu[4], vector<string> *hasil){
+    // write the file name in date and time format
+    time_t t = time(0);
+    struct tm * now = localtime(&t);
+
+    const char * dir = "test\\";
+    const char * ext = ".txt";
+    char filename[100];
+    sprintf(filename, "%s%d-%d-%d-%d-%d-%d%s", dir, (now->tm_year + 1900), (now->tm_mon + 1), now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec, ext);
+
+    ofstream file;
+    file.open(filename);
+
+    file << "Kartu : " << kartu[0] << " " << kartu[1] << " " << kartu[2] << " " << kartu[3] << endl;
+    file << "Jumlah Solusi : " << hasil->size() << endl;
+    file << "Solusi : " << endl;
+    for (int i = 0 ; i < hasil->size() ; i++){
+        file << hasil->at(i) << endl;
+    }
+    file.close();
+    cout << "Solusi telah disimpan di file " << filename << endl;
+}
 
 int main(){
     /* SPLASH SCREEN */
@@ -243,10 +219,9 @@ int main(){
     int pilihan;
     string kartu[4];
     int length_kartu = 4;
-    int nilai_kartu[4];    
+    double nilai_kartu[4];    
     string arr_kartu[] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     vector<string> hasil;
-    int count = 0;
 
     while (run){
         cout << "===== MENU UTAMA =====" << endl;
@@ -255,7 +230,7 @@ int main(){
         cout << "3. Exit" << endl;
         cout << "Pilihan : ";
         cin >> pilihan;
-
+        int count = 0;
         if (pilihan == 1){
 
             /* INPUT KARTU DAN VALIDASI */
@@ -268,7 +243,7 @@ int main(){
                 for (int i = 0; i < length_kartu; i++){
 
                     /* MERUBAH INPUT KARTU MENJADI INTEGER */
-                    nilai_kartu[i] = strtoint(kartu[i]);
+                    nilai_kartu[i] = strtodouble(kartu[i]);
 
                     if (nilai_kartu[i] == 999){
                         cout << "Input salah, ulangi input!" << endl;
@@ -278,18 +253,22 @@ int main(){
                         valid = true;
                     }
                 }
+                if (valid){
 
-                // cek nilai 24
-                permute(nilai_kartu, &hasil, &count);
+                    // cek nilai 24
+                    perm(nilai_kartu, 0, 4, &hasil, &count);
 
-                // print hasil
-                if (count == 0){
-                    cout << "Tidak ada solusi" << endl;
-                }
-                else{
-                    cout << count << " solusi ditemukan" << endl;
-                    for (int i = 0; i < hasil.size(); i++){
-                        cout << hasil[i] << endl;
+                    // print hasil
+                    if (count == 0){
+                        cout << "Tidak ada solusi" << endl;
+                    }
+                    else{
+                        removeduplicates(&hasil);
+                        cout <<  "Jumlah solusi : " << hasil.size() << endl;
+                        for (int i = 0; i < hasil.size(); i++){
+                            cout << hasil[i] << endl;
+                        }
+                        writefile(kartu, &hasil);
                     }
                 }
             }
@@ -304,7 +283,7 @@ int main(){
 
             for (int i = 0; i < length_kartu; i++) {
                 int rand_num = rand() % 13;
-                nilai_kartu[i] = strtoint(arr_kartu[rand_num]);
+                nilai_kartu[i] = strtodouble(arr_kartu[rand_num]);
                 cout << arr_kartu[rand_num] << " ";
             }
 
