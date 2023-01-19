@@ -2,10 +2,12 @@
 #include <cstdlib>
 #include <time.h>
 
+
 using namespace std;
 
-// Fungsi untuk mengubah string menjadi integer pada kartu
+
 int strtoint(string c){
+    // Fungsi untuk mengubah string menjadi integer pada kartu
     if (c == "A"){
         return 1;
     }
@@ -50,6 +52,32 @@ int strtoint(string c){
     }
 }
 
+void check24 (int nums[4]){
+    // Fungsi untuk mengecek apakah ada 4 angka yang dapat menghasilkan 24
+    int a = nums[0];
+    int b = nums[1];
+    int c = nums[2];
+    int d = nums[3];
+    int hasil = 24;
+
+    // KEMUNGKINAN OPERASI
+    // a X b X c X d
+    // a X b X (c X d)
+    // (a X b) X (c X d)
+    // (a X b) X c X d
+    // a X (b X c) X d
+    // a X (b X (c X d))
+    // a X (b X c X d)
+    // (a X b X c) X d
+    // (a X b) X c X d
+    // a X (b X c X d)
+    // (a X b X c X d)
+
+    // Looping untuk menghitung semua kemungkinan operasi
+    // a X b X c X d
+    // X adalah operasi +, -, *, /
+
+}
 
 
 int main(){
@@ -114,7 +142,7 @@ int main(){
         else if (pilihan == 2){
             srand(time(0));
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < length_kartu; i++) {
                 int rand_num = rand() % 13;
                 nilai_kartu[i] = strtoint(arr_kartu[rand_num]);
                 cout << arr_kartu[rand_num] << " ";
