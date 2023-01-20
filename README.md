@@ -6,7 +6,7 @@ Tugas Kecil 1 IF2211 Strategi Algoritma 13521024 Ahmad Nadil
 
 2. Compile source code dengan command berikut : 
 
-`g++ -o bin/main.exe src/main.cpp`
+`g++ -o bin/main src/*.cpp`
 
 3. Jalankan executable program yang telah berhasil di-compile dengan command berikut :
 
