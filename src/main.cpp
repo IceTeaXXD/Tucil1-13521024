@@ -7,9 +7,9 @@
 #include <ctime>
 #include <chrono>
 
-#include "operations.h"
-#include "cards.h"
-#include "result.h"
+#include "operations.hpp"
+#include "cards.hpp"
+#include "result.hpp"
 
 using namespace std;
 
