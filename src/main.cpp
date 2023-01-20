@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <ctime>
+#include <chrono>
 
 #include "operations.h"
 #include "cards.h"
@@ -60,10 +61,10 @@ int main(){
             }
 
             /* MAIN PROGRAM UNTUK MENCARI SOLUSI */
-            clock_t start = clock(); // start timer
+            auto start = chrono::steady_clock::now(); // start timer
             perm(nilai_kartu, 0, 4, &hasil); // Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan kombinasi kartu
-            clock_t end = clock();  // end timer
-            double runtime = double(end - start)/CLOCKS_PER_SEC * 1000; // hitung runtime dalam milisecond
+            auto end = chrono::steady_clock::now(); // hitung runtime dalam milisecond
+            double runtime = chrono::duration_cast<chrono::microseconds>(end - start).count() * 0.001; // hitung runtime dalam milisecond
             
             /* OUTPUT AKHIR */
             if (hasil.size() == 0){
@@ -108,10 +109,10 @@ int main(){
             cout << endl;
 
             /* MAIN PROGRAM UNTUK MENCARI SOLUSI */
-            clock_t start = clock(); // start timer
+            auto start = chrono::steady_clock::now(); // start timer
             perm(nilai_kartu, 0, 4, &hasil); // Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan kombinasi kartu
-            clock_t end = clock();  // end timer
-            float runtime = float(end - start)/CLOCKS_PER_SEC * 1000 ; // hitung runtime dalam milisecond
+            auto end = chrono::steady_clock::now(); // hitung runtime dalam milisecond
+            double runtime = chrono::duration_cast<chrono::microseconds>(end - start).count() * 0.001; // hitung runtime dalam milisecond
 
             /* OUTPUT AKHIR */
             if (hasil.size() == 0){
