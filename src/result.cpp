@@ -56,7 +56,7 @@ void writefile(vector<string> kartu, vector<string> *hasil, double runtime){
 
 void printruntime(double runtime){
     cout << "============================" << endl;
-    cout << "| Waktu Eksekusi : " << runtime << " ms    |" << endl;
+    cout << "| Waktu Eksekusi : " << runtime << " ms |" << endl;
     cout << "============================" << endl;
 }
 
