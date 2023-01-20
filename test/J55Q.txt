@@ -23,4 +23,4 @@ Solusi :
 ((12 - 5) * 5) - 11
 (12 + 11) + (5 / 5)
 12 + (11 + (5 / 5))
-Waktu Eksekusi : 0 ms
+Waktu Eksekusi : 0.133 ms

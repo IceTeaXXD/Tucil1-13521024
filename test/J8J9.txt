@@ -1,0 +1,6 @@
+Kartu : J 8 J 9
+Jumlah Solusi : 2
+Solusi : 
+((11 - 8) * 11) - 9
+(11 * (11 - 8)) - 9
+Waktu Eksekusi : 0.087 ms
