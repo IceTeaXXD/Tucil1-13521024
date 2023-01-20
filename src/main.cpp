@@ -1,10 +1,8 @@
 #include <iostream>
 #include <cstdlib>
-#include <time.h>
 #include <string>
 #include <vector>
 #include <fstream>
-#include <ctime>
 #include <chrono>
 
 #include "operations.hpp"
@@ -47,7 +45,7 @@ int main(){
                 /* VALIDASI */
                 for (int i = 0 ; i < 4 ; i++){
                     /* MERUBAH INPUT KARTU MENJADI INTEGER */
-                    nilai_kartu[i] = strtodouble(kartu_input[i]);
+                    nilai_kartu[i] = strtocard(kartu_input[i]);
                     if (nilai_kartu[i] == 999){
                         cout << "Kartu tidak valid" << endl;
                         kartu_input.clear();
@@ -103,7 +101,7 @@ int main(){
             for (int i = 0; i < 4; i++) {
                 int rand_num = rand() % 13; // random number dari 0-12 (sesuai jumlah kartu)
                 kartu_input.push_back(arr_kartu[rand_num]); // memasukkan kartu ke vector, dari array kartu dengan index random
-                nilai_kartu[i] = strtodouble(arr_kartu[rand_num]); // Merubah kartu menjadi integer
+                nilai_kartu[i] = strtocard(arr_kartu[rand_num]); // Merubah kartu menjadi integer
                 cout << arr_kartu[rand_num] << " "; // menampilkan kartu
             }
             cout << endl;
