@@ -27,6 +27,12 @@ bool isduplicate(vector<string> *hasil, string str);
     F.S. Mengembalikan true jika string tersebut sudah ada di dalam vector string
     */
 
+void validator24 (double nums[4], vector<string> *hasil);
+    /*
+    I.S. Menerima sebuah array of double dan sebuah vector string
+    F.S. Mengisi vector string dengan semua kemungkinan operasi yang menghasilkan 24
+    */
+   
 void perm(double *nums, int start, int end, vector<string> *hasil);
     /*
     I.S. Menerima sebuah array of double, sebuah integer start, sebuah integer end, dan sebuah vector string

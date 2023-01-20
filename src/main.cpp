@@ -19,11 +19,9 @@ int main(){
     int pilihan;
     vector<string> kartu_input;
     vector<string> hasil;
-    string temp_kartu;
     string arr_kartu[] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     double nilai_kartu[4];    
     double runtime;
-    time_t start,end;
 
     /* MAIN PROGRAM LOOP */
     while (run){

@@ -11,7 +11,7 @@ using namespace std;
 
 void writefile(vector<string> kartu, vector<string> *hasil, double runtime);
     /*
-    I.S. Menerima sebuah vector string kartu, sebuah vector string hasil, dan sebuah double
+    I.S. Menerima sebuah vector string kartu, sebuah vector string hasil, dan sebuah double waktu eksekusi program
     F.S. Menulis hasil ke file
     */
 void printruntime(double runtime);
