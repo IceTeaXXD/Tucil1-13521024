@@ -14,7 +14,7 @@ void writefile(vector<string> kartu, vector<string> *hasil, double runtime);
     I.S. Menerima sebuah vector string kartu, sebuah vector string hasil, dan sebuah double
     F.S. Menulis hasil ke file
     */
-void printruntime(float runtime);
+void printruntime(double runtime);
 
 void splashscreen();
 
