@@ -12,12 +12,6 @@ string inttostr(int num);
     F.S. Mengembalikan nilai integer tersebut dalam bentuk string
     */
 
-double strtodouble(string c);
-    /*
-    I.S. Menerima sebuah string
-    F.S. Mengembalikan nilai kartu tersebut dalam bentuk integer
-    */
-
 string inttoop(int op);
     /*
     I.S. Menerima sebuah integer

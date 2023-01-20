@@ -1,5 +1,55 @@
 #include "cards.hpp"
 
+double strtocard(string c){
+    /*
+    I.S. Menerima sebuah string
+    F.S. Mengembalikan nilai kartu tersebut dalam bentuk integer
+    */
+
+    if (c == "A"){
+        return 1.0;
+    }
+    else if (c == "J"){
+        return 11.0;
+    }
+    else if (c == "Q"){
+        return 12.0;
+    }
+    else if (c == "K"){
+        return 13.0;
+    }
+    else if (c == "2"){
+        return 2.0;
+    }
+    else if (c == "3"){
+        return 3.0;
+    }
+    else if (c == "4"){
+        return 4.0;
+    }
+    else if (c == "5"){
+        return 5.0;
+    }
+    else if (c == "6"){
+        return 6.0;
+    }
+    else if (c == "7"){
+        return 7.0;
+    }
+    else if (c == "8"){
+        return 8.0;
+    }
+    else if (c == "9"){
+        return 9.0;
+    }
+    else if (c == "10"){
+        return 10.0;
+    }
+    else{ // Jika input salah
+        return 999.0;
+    }
+}
+
 void inputkartu (vector<string> *kartu_input){
     /*
     I.S. Menerima sebuah vector string

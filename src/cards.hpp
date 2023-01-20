@@ -9,6 +9,12 @@ using namespace std;
 #ifndef CARDS_H
 #define CARDS_H
 
+double strtocard(string c);
+    /*
+    I.S. Menerima sebuah string
+    F.S. Mengembalikan nilai kartu tersebut dalam bentuk integer
+    */
+   
 void inputkartu (vector<string> *kartu_input);
     /*
     I.S. Menerima sebuah vector string
