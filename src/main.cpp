@@ -67,11 +67,15 @@ int main(){
             
             /* OUTPUT AKHIR */
             if (hasil.size() == 0){
-                cout << "Tidak ada solusi" << endl;
+                cout << "============================" << endl;
+                cout << "|Tidak ada solusi          |" << endl;
+                cout << "============================" << endl;
                 printruntime(runtime);
             }
             else{
-                cout <<  "Jumlah solusi : " << hasil.size() << endl;
+                cout << "============================" << endl;
+                cout << "| Jumlah solusi : " << hasil.size() << "       |" << endl;
+                cout << "============================" << endl;
                 for (int i = 0; i < hasil.size(); i++){
                     cout << hasil[i] << endl;
                 }
@@ -111,11 +115,15 @@ int main(){
 
             /* OUTPUT AKHIR */
             if (hasil.size() == 0){
+                cout << "============================" << endl;
                 cout << "Tidak ada solusi" << endl;
+                cout << "============================" << endl;
                 printruntime(runtime);
             }
             else{
-                cout <<  "Jumlah solusi : " << hasil.size() << endl;
+                cout << "============================" << endl;
+                cout << "| Jumlah solusi : " << hasil.size() << "       |" << endl;
+                cout << "============================" << endl;
                 for (int i = 0; i < hasil.size(); i++){
                     cout << hasil[i] << endl;
                 }
@@ -139,7 +147,7 @@ int main(){
             run = false;
             cout << "Thank you for using this program!" << endl;
             cout << "Have a nice day!" << endl;
-            cout << "Press enter to continue...";
+            cout << "Press enter to exit...";
             cin.ignore();
             cin.get();
         }
