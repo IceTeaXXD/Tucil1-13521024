@@ -82,6 +82,9 @@ string inttoop(int op){
     else if (op == 3){
         return "/";
     }
+    else{
+        return "error";
+    }
 }
 
 double operasi (double a, double b, int op){
@@ -101,5 +104,8 @@ double operasi (double a, double b, int op){
     }
     else if (op == 3){
         return a/b;
+    }
+    else{
+        return 999.0;
     }
 }
