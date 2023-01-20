@@ -1,4 +1,4 @@
-#include "result.h"
+#include "result.hpp"
 
 void writefile(vector<string> kartu, vector<string> *hasil, double runtime){ 
     /*
