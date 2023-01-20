@@ -8,6 +8,20 @@
 
 using namespace std;
 
+void inputkartu (vector<string> *kartu_input){
+    /*
+    I.S. Menerima sebuah vector string
+    F.S. Mengisi vector string dengan 4 kartu yang diinput
+    */
+
+    string temp;
+    cout << "Masukkan 4 kartu (A,2,3,4,5,6,7,8,9,10,J,Q,K) : ";
+    for (int i = 0 ; i < 4 ; i++){
+        cin >> temp;
+        kartu_input->push_back(temp);
+    }
+}
+
 string inttostr(int num){
     /*
     I.S. Menerima sebuah integer
@@ -22,7 +36,7 @@ string inttostr(int num){
     return str;
 }
 
-int strtodouble(string c){
+double strtodouble(string c){
     /*
     I.S. Menerima sebuah string
     F.S. Mengembalikan nilai kartu tersebut dalam bentuk integer
@@ -77,6 +91,7 @@ string inttoop(int op){
     I.S. Menerima sebuah integer
     F.S. Mengembalikan nilai operator tersebut dalam bentuk string
     */
+
     if (op == 0){
         return "+";
     }
@@ -92,6 +107,11 @@ string inttoop(int op){
 }
 
 double operasi (double a, double b, int op){
+    /*
+    I.S. Menerima dua buah bilangan dan sebuah operator
+    F.S. Mengembalikan hasil operasi antara dua buah bilangan tersebut
+    */
+
     if (op == 0){
         return a+b;
     }
@@ -107,6 +127,11 @@ double operasi (double a, double b, int op){
 }
 
 bool isduplicate(vector<string> *hasil, string str){
+    /*
+    I.S. Menerima sebuah vector string dan sebuah string
+    F.S. Mengembalikan true jika string tersebut sudah ada di dalam vector string
+    */
+
     for (int i = 0 ; i < hasil->size() ; i++){
         if (hasil->at(i) == str){
             return true;
@@ -116,6 +141,11 @@ bool isduplicate(vector<string> *hasil, string str){
 }
 
 void validator24 (double nums[4], vector<string> *hasil){
+    /*
+    I.S. Menerima sebuah array of double dan sebuah vector string
+    F.S. Mengisi vector string dengan semua kemungkinan operasi yang menghasilkan 24
+    */
+
     double a = nums[0];
     double b = nums[1];
     double c = nums[2];
@@ -124,52 +154,50 @@ void validator24 (double nums[4], vector<string> *hasil){
     for (int i = 0 ; i < 4 ; i++){
         for (int j = 0 ; j < 4 ; j++){
             for (int k = 0 ; k < 4 ; k++){
-                for (int l = 0 ; l < 4 ; l++){
-                    // KEMUNGKINAN OPERASI
-                    // X adalah operator * / + -
-                        // i or j or k or l = 0 -> +
-                        // i or j or k or l = 1 -> -
-                        // i or j or k or l = 2 -> *
-                        // i or j or k or l = 3 -> /
+                // KEMUNGKINAN OPERASI
+                // X adalah operator * / + -
+                    // i or j or k = 0 -> +
+                    // i or j or k = 1 -> -
+                    // i or j or k = 2 -> *
+                    // i or j or k = 3 -> /
 
-                    // (a X b) X (c X d)
-                    if (operasi(operasi(a,b,i),operasi(c,d,k),j) == 24.0){
-                        temp = "(" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + ")";
-                        if (!isduplicate(hasil,temp)){
-                            hasil->push_back(temp);
-                        }
+                // (a X b) X (c X d)
+                if (operasi(operasi(a,b,i),operasi(c,d,k),j) == 24.0){
+                    temp = "(" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + ")";
+                    if (!isduplicate(hasil,temp)){
+                        hasil->push_back(temp);
                     }
+                }
 
-                    // a X (b X (c X d))
-                    if (operasi(a,operasi(b,operasi(c,d,k),j),i) == 24.0){
-                        temp = inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + "))";
-                        if (!isduplicate(hasil,temp)){
-                            hasil->push_back(temp);
-                        }
+                // a X (b X (c X d))
+                if (operasi(a,operasi(b,operasi(c,d,k),j),i) == 24.0){
+                    temp = inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " (" + inttostr(c) + " " + inttoop(k) + " " + inttostr(d) + "))";
+                    if (!isduplicate(hasil,temp)){
+                        hasil->push_back(temp);
                     }
+                }
 
-                    // a X ((b X c) X d)
-                    if (operasi(a,operasi(operasi(b,c,j),d,k),i) == 24.0){
-                        temp = inttostr(a) + " " + inttoop(i) + " ((" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d) + ")";
-                        if (!isduplicate(hasil,temp)){
-                            hasil->push_back(temp);
-                        }
+                // a X ((b X c) X d)
+                if (operasi(a,operasi(operasi(b,c,j),d,k),i) == 24.0){
+                    temp = inttostr(a) + " " + inttoop(i) + " ((" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d) + ")";
+                    if (!isduplicate(hasil,temp)){
+                        hasil->push_back(temp);
                     }
+                }
 
-                    // (a X (b X c)) X d
-                    if (operasi(operasi(a,operasi(b,c,j),i),d,k) == 24.0){
-                        temp = "(" + inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ")) " + inttoop(k) + " " + inttostr(d);
-                        if (!isduplicate(hasil,temp)){
-                            hasil->push_back(temp);
-                        }
+                // (a X (b X c)) X d
+                if (operasi(operasi(a,operasi(b,c,j),i),d,k) == 24.0){
+                    temp = "(" + inttostr(a) + " " + inttoop(i) + " (" + inttostr(b) + " " + inttoop(j) + " " + inttostr(c) + ")) " + inttoop(k) + " " + inttostr(d);
+                    if (!isduplicate(hasil,temp)){
+                        hasil->push_back(temp);
                     }
+                }
 
-                    // ((a X b) X c) X d
-                    if (operasi(operasi(operasi(a,b,i),c,j),d,k) == 24.0){
-                        temp = "((" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d);
-                        if (!isduplicate(hasil,temp)){
-                            hasil->push_back(temp);
-                        }
+                // ((a X b) X c) X d
+                if (operasi(operasi(operasi(a,b,i),c,j),d,k) == 24.0){
+                    temp = "((" + inttostr(a) + " " + inttoop(i) + " " + inttostr(b) + ") " + inttoop(j) + " " + inttostr(c) + ") " + inttoop(k) + " " + inttostr(d);
+                    if (!isduplicate(hasil,temp)){
+                        hasil->push_back(temp);
                     }
                 }
             }
@@ -178,6 +206,11 @@ void validator24 (double nums[4], vector<string> *hasil){
 }
 
 void perm(double *nums, int start, int end, vector<string> *hasil){
+    /*
+    I.S. Menerima sebuah array of double, sebuah integer start, sebuah integer end, dan sebuah vector string
+    F.S. Mengisi vector string dengan semua kemungkinan operasi yang menghasilkan 24 dari angka-angka yang terdapat pada array of double
+    */
+   
     if (start == end){
         validator24(nums, hasil);
     }
@@ -191,51 +224,56 @@ void perm(double *nums, int start, int end, vector<string> *hasil){
 }
 
 void writefile(vector<string> kartu, vector<string> *hasil, double runtime){ 
+    /*
+    I.S. Menerima sebuah vector string kartu, sebuah vector string hasil, dan sebuah double
+    F.S. Menulis hasil ke file
+    */
+   
+   /* INISIASI VARIABEL */
     bool save = false;
     string yesno;
+    string filename;
+    string path;
+
+    /* SAVE LOOP */
     while (!save){
         cout << "Simpan hasil ke file? (Y/N) : ";
         cin >> yesno;
-        if (yesno == "Y" || yesno == "y"){
-        const char * dir = "test\\";
-        const char * ext = ".txt";
-        // input filename
-        string filename;
-        cout << "Masukkan nama file : ";
-        cin >> filename;
-        // create filename
-        string temp = dir + filename + ext;
-        const char * filename_char = temp.c_str();
-        // write to file
-        ofstream file;
-        file.open(filename_char);
 
-        file << "Kartu : " << kartu[0] << " " << kartu[1] << " " << kartu[2] << " " << kartu[3] << endl;
-        file << "Jumlah Solusi : " << hasil->size() << endl;
-        file << "Solusi : " << endl;
-        for (int i = 0 ; i < hasil->size() ; i++){
-            file << hasil->at(i) << endl;
+        /* SAVE FILE */
+        if (yesno == "Y" || yesno == "y"){
+            /* INPUT NAMA FILE */
+            cout << "Masukkan nama file : ";
+            cin >> filename;
+            path = "test\\" + filename + ".txt";
+            const char * filename_char = path.c_str(); // Mengubah string menjadi bentuk constan char
+
+            /* MEMBUAT FILE */
+            ofstream file;
+            file.open(filename_char);
+
+            /* MENULISKAN HASIL SOLUSI KE DALAM FILE */
+            file << "Kartu : " << kartu[0] << " " << kartu[1] << " " << kartu[2] << " " << kartu[3] << endl;
+            file << "Jumlah Solusi : " << hasil->size() << endl;
+            file << "Solusi : " << endl;
+            for (int i = 0 ; i < hasil->size() ; i++){
+                file << hasil->at(i) << endl;
+            }
+            file << "Waktu Eksekusi : " << runtime << " ms" << endl;
+            file.close();
+            cout << "Solusi telah disimpan di file " << filename << endl;
+                save = true;
         }
-        file << "Waktu Eksekusi : " << runtime << " detik" << endl;
-        file.close();
-        cout << "Solusi telah disimpan di file " << filename << endl;
-            save = true;
-        }
+
+        /* DONT SAVE FILE */
         else if (yesno == "N" || yesno == "n"){
             save = true;
         }
+
+        /* INPUT SALAH */
         else{
             cout << "Input tidak valid!" << endl;
         }
-    }
-}
-
-void inputkartu (vector<string> *kartu_input){
-    string temp;
-    cout << "Masukkan 4 kartu (A,2,3,4,5,6,7,8,9,10,J,Q,K) : ";
-    for (int i = 0 ; i < 4 ; i++){
-        cin >> temp;
-        kartu_input->push_back(temp);
     }
 }
 
@@ -258,31 +296,34 @@ void printruntime(double runtime){
     cout << "| Waktu Eksekusi : " << runtime << " ms    |" << endl;
     cout << "============================" << endl;
 }
+
 int main(){
-    /* MAIN MENU */
+    /* INISIASI VARIABEL */
     splashscreen();
     bool run = true;
-    int pilihan;
     bool valid;
-    bool save = false;
-    bool validsave = false;
+    int pilihan;
     vector<string> kartu_input;
-    string temp_kartu;
-    double nilai_kartu[4];    
-    string arr_kartu[] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     vector<string> hasil;
-    time_t start,end;
+    string temp_kartu;
+    string arr_kartu[] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+    double nilai_kartu[4];    
     double runtime;
+    time_t start,end;
 
+    /* MAIN PROGRAM LOOP */
     while (run){
         cout << "===== MENU UTAMA =====" << endl;
         cout << "1. Input Kartu" << endl;
         cout << "2. Random Kartu" << endl;
         cout << "3. Exit" << endl;
+
+        /* PILIHAN MENU */
         cout << "Pilihan (1/2/3) : ";
         cin >> pilihan;
-        if (pilihan == 1){
 
+        /* MENU INPUT KARTU (1) */
+        if (pilihan == 1){
             /* INPUT KARTU DAN VALIDASI */
             valid= false;
             while (!valid){
@@ -303,14 +344,13 @@ int main(){
                 }
             }
 
-            clock_t start = clock();
-            /* Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan dari set kartu */
-            perm(nilai_kartu, 0, 4, &hasil);
-
-            clock_t end = clock();
-            double runtime = double(end - start)/CLOCKS_PER_SEC * 1000;
+            /* MAIN PROGRAM UNTUK MENCARI SOLUSI */
+            clock_t start = clock(); // start timer
+            perm(nilai_kartu, 0, 4, &hasil); // Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan kombinasi kartu
+            clock_t end = clock();  // end timer
+            double runtime = double(end - start)/CLOCKS_PER_SEC * 1000; // hitung runtime dalam milisecond
             
-            /* Menampilkan hasil akhir */
+            /* OUTPUT AKHIR */
             if (hasil.size() == 0){
                 cout << "Tidak ada solusi" << endl;
                 printruntime(runtime);
@@ -322,10 +362,11 @@ int main(){
                 }
                 printruntime(runtime);
             }
-
+            
+            /* MENULISKAN SOLUSI KE FILE */
             writefile(kartu_input, &hasil, runtime);
             
-            // Reset Variabel
+            /* RESET VARIABEL*/
             kartu_input.clear();
             hasil.clear();
 
@@ -334,26 +375,26 @@ int main(){
             cin.get();
         }
 
+        /* MENU RANDOM KARTU */
         else if (pilihan == 2){
-            /* RANDOM KARTU */
-            srand(time(0));
+            srand(time(0)); // seed random menggunakan waktu
+
+            /* LOOP RANDOM KARTU */
             for (int i = 0; i < 4; i++) {
-                int rand_num = rand() % 13;
-                kartu_input.push_back(arr_kartu[rand_num]);
+                int rand_num = rand() % 13; // random number dari 0-12 (sesuai jumlah kartu)
+                kartu_input.push_back(arr_kartu[rand_num]); // memasukkan kartu ke vector, dari array kartu dengan index random
                 nilai_kartu[i] = strtodouble(arr_kartu[rand_num]); // Merubah kartu menjadi integer
-                cout << arr_kartu[rand_num] << " ";
+                cout << arr_kartu[rand_num] << " "; // menampilkan kartu
             }
             cout << endl;
 
-            clock_t start = clock();
-            /* Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan dari set kartu */
-            perm(nilai_kartu, 0, 4, &hasil);
+            /* MAIN PROGRAM UNTUK MENCARI SOLUSI */
+            clock_t start = clock(); // start timer
+            perm(nilai_kartu, 0, 4, &hasil); // Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan kombinasi kartu
+            clock_t end = clock();  // end timer
+            double runtime = double(end - start)/CLOCKS_PER_SEC * 1000; // hitung runtime dalam milisecond
 
-            clock_t end = clock();
-            double runtime = double(end - start)/CLOCKS_PER_SEC * 1000;
-
-            
-            /* Menampilkan hasil akhir */
+            /* OUTPUT AKHIR */
             if (hasil.size() == 0){
                 cout << "Tidak ada solusi" << endl;
                 printruntime(runtime);
@@ -365,9 +406,11 @@ int main(){
                 }
                 printruntime(runtime);
             }
+
+            /* MENULISKAN SOLUSI KE FILE */
             writefile(kartu_input, &hasil, runtime);
             
-            // Reset Variabel
+            /* RESET VARIABEL*/
             kartu_input.clear();
             hasil.clear();
 
@@ -376,6 +419,7 @@ int main(){
             cin.get();
         }
 
+        /* MENU EXIT */
         else if (pilihan == 3){
             run = false;
             cout << "Thank you for using this program!" << endl;
@@ -385,6 +429,7 @@ int main(){
             cin.get();
         }
         
+        /* JIKA PILIHAN TIDAK VALID */
         else{
             cout << "Pilihan salah, ulangi input!" << endl;
             cout << "Press enter to continue...";
