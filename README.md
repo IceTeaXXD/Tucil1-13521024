@@ -10,7 +10,7 @@ Permainan kartu 24 merupakan permainan kartu aritmatika dengan tujuan mencari ca
 │   README.md
 │   .gitignore
 │
-├───bin                                     # Bytecode
+├───bin                             # Bytecode
 │   │   main.exe
 │
 ├───doc                             # Documentation
