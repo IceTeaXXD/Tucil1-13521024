@@ -9,6 +9,7 @@ Permainan kartu 24 merupakan permainan kartu aritmatika dengan tujuan mencari ca
 .
 │   README.md
 │   .gitignore
+│   run.bat
 │
 ├───bin                             # Bytecode
 │   │   main.exe
@@ -29,13 +30,13 @@ Permainan kartu 24 merupakan permainan kartu aritmatika dengan tujuan mencari ca
 ## How to run?
 1. Buka Terminal pada Directory File ini
 
-2. Compile source code dengan command berikut : 
+2. Compile dan run source code dengan menjalankan command berikut:
 
-`g++ -o bin/main src/*.cpp`
-
-3. Jalankan executable program yang telah berhasil di-compile dengan command berikut :
-
-`bin/main.exe`
+`./run.bat`
 
 ## Author
 Ahmad Nadil, 13521024
+
+## Additional Notes
+Program ini dibuat dan ditest menggunakan compiler g++ versi 12.2.0
+Gunakan versi terbaru dari compiler g++ agar program dapat berjalan dengan baik.
