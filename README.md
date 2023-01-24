@@ -11,7 +11,7 @@ Permainan kartu 24 merupakan permainan kartu aritmatika dengan tujuan mencari ca
 │   .gitignore
 │   run.bat
 │
-├───bin                             # Bytecode
+├───bin                             # Executable
 │   │   main.exe
 │
 ├───doc                             # Documentation
