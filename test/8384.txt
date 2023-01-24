@@ -1,4 +1,4 @@
 Kartu : 8 3 8 4
 Jumlah Solusi : 0
 Solusi : 
-Waktu Eksekusi : 0.081 ms
+Waktu Eksekusi : 0.1 ms

@@ -3,4 +3,4 @@ Jumlah Solusi : 2
 Solusi : 
 ((11 - 8) * 11) - 9
 (11 * (11 - 8)) - 9
-Waktu Eksekusi : 0.087 ms
+Waktu Eksekusi : 0.459 ms
