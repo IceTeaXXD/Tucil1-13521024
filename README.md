@@ -39,4 +39,5 @@ Ahmad Nadil, 13521024
 
 ## Additional Notes
 Program ini dibuat dan ditest menggunakan compiler g++ versi 12.2.0
+
 Gunakan versi terbaru dari compiler g++ agar program dapat berjalan dengan baik.
