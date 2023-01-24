@@ -143,20 +143,25 @@ void validator24 (double nums[4], vector<string> *hasil){
     }
 }
 
-void perm(double *nums, int start, int end, vector<string> *hasil){
+void perm(double *nums,vector<string> *hasil){
     /*
-    I.S. Menerima sebuah array of double, sebuah integer start, sebuah integer end, dan sebuah vector string
+    I.S. Menerima sebuah array of double, dan sebuah vector string
     F.S. Mengisi vector string dengan semua kemungkinan operasi yang menghasilkan 24 dari angka-angka yang terdapat pada array of double
     */
-
-    if (start == end){
-        validator24(nums, hasil);
-    }
-    else{
-        for (int i = start; i < end; i++){
-            swap(nums[start], nums[i]);
-            perm(nums, start + 1, end, hasil);
-            swap(nums[start], nums[i]);
+    double nums_perm[4];
+    for (int i = 0 ; i < 4 ; i++){
+        for (int j = 0 ; j < 4 ; j++){
+            for (int k = 0 ; k < 4 ; k++){
+                for (int l = 0 ; l < 4 ; l++){
+                    if (i != j && i != k && i != l && j != k && j != l && k != l){
+                        nums_perm[0] = nums[i];
+                        nums_perm[1] = nums[j];
+                        nums_perm[2] = nums[k];
+                        nums_perm[3] = nums[l];
+                        validator24(nums_perm, hasil);
+                    }
+                }
+            }
         }
     }
 }

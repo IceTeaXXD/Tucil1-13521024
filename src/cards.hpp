@@ -33,9 +33,9 @@ void validator24 (double nums[4], vector<string> *hasil);
     F.S. Mengisi vector string dengan semua kemungkinan operasi yang menghasilkan 24
     */
    
-void perm(double *nums, int start, int end, vector<string> *hasil);
+void perm(double *nums,vector<string> *hasil);
     /*
-    I.S. Menerima sebuah array of double, sebuah integer start, sebuah integer end, dan sebuah vector string
+    I.S. Menerima sebuah array of double, dan sebuah vector string
     F.S. Mengisi vector string dengan semua kemungkinan operasi yang menghasilkan 24 dari angka-angka yang terdapat pada array of double
     */
 

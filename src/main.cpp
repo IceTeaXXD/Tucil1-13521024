@@ -58,7 +58,7 @@ int main(){
 
             /* MAIN PROGRAM UNTUK MENCARI SOLUSI */
             auto start = chrono::steady_clock::now(); // start timer
-            perm(nilai_kartu, 0, 4, &hasil); // Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan kombinasi kartu
+            perm(nilai_kartu, &hasil); // Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan kombinasi kartu
             auto end = chrono::steady_clock::now(); // hitung runtime dalam milisecond
             double runtime = chrono::duration_cast<chrono::microseconds>(end - start).count() * 0.001; // hitung runtime dalam milisecond
             
@@ -106,7 +106,7 @@ int main(){
 
             /* MAIN PROGRAM UNTUK MENCARI SOLUSI */
             auto start = chrono::steady_clock::now(); // start timer
-            perm(nilai_kartu, 0, 4, &hasil); // Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan kombinasi kartu
+            perm(nilai_kartu, &hasil); // Memanggil fungsi permutasi untuk mendapatkan semua kemungkinan kombinasi kartu
             auto end = chrono::steady_clock::now(); // hitung runtime dalam milisecond
             double runtime = chrono::duration_cast<chrono::microseconds>(end - start).count() * 0.001; // hitung runtime dalam milisecond
 
